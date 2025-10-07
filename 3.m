@@ -1,4 +1,4 @@
-%% Дані: X1 — трафік, X2 — підключення, Y — класи
+%% Дані: X1 — трафік, X2 — підключення, Y — класи 
 X = [300 15;
      280 18;
      800 5;
@@ -11,16 +11,21 @@ ldaModel = fitcdiscr(X, Y);
 %% Вивід коефіцієнтів
 disp('Коефіцієнти дискримінантної функції:');
 disp(ldaModel.Coeffs(1,2).Linear);
+disp('Константа:');
+disp(ldaModel.Coeffs(1,2).Const);
 
 %% Візуалізація
+figure;
 gscatter(X(:,1), X(:,2), Y, 'rb', 'xo');
 xlabel('Трафік');
 ylabel('Підключення');
 title('Лінійний дискримінантний аналіз');
+hold on;
 
 %% Побудова межі
 k = ldaModel.Coeffs(1,2).Linear;
 f = @(x1,x2) k(1)*x1 + k(2)*x2 + ldaModel.Coeffs(1,2).Const;
 fimplicit(f, [200 900 0 25], 'k--');
-legend('Смартфони', 'ПК', 'Межа');
+legend('Клас 1 (Смартфони)', 'Клас 2 (ПК)', 'Межа');
 hold off;
+
